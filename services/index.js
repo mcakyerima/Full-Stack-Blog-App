@@ -31,6 +31,7 @@ export const getPost = async () => {
                 name
                 slug
               }
+              
             }
           }
         }
@@ -44,7 +45,7 @@ export const getPost = async () => {
 // get Post Details
 export const getPostDetails = async (slug) => {
   const query = gql`
-  query GetPostDetails($slug: string!) {
+  query GetPostDetails($slug: String!) {
     post(where: { slug: $slug}) {
             author {
               description
@@ -65,12 +66,15 @@ export const getPostDetails = async (slug) => {
               name
               slug
             }
+            content {
+              raw
+            }
           }
         }
   `
-  const result = await request(graphqlAPI, query)
+  const result = await request(graphqlAPI, query , {slug})
   
-  return result.postsConnection.edges;
+  return result.post;
 };
 
 
@@ -101,16 +105,13 @@ return result.posts
 // and the parameter name and semicolon and the data type
 // our category is actuall an array of strings
 
-export const getSimilarPosts = async () => {
+export const getSimilarPosts = async (categories, slug) => {
   const query = gql`
-  query GetPostDetails($slug: String!, $category: [String!]) {
-    
-      # get POSTS wher SLUG not equal to the current SLUG cuz we are already on it
-      #  AND  categories_some with the SLUG in the CATEGORY and the last: 3 of it
-    posts(
-      where: { slug_not: $slug, AND: { categories_some: { $slug_in: $categories}}}
-      last: 3
-    ){
+    query GetPostDetails($slug: String!, $categories: [String!]) {
+      posts(
+        where: {slug_not: $slug, AND: {categories_some: {slug_in: $categories}}}
+        last: 3
+      ) {
         title
         featured_image {
           url
@@ -118,11 +119,14 @@ export const getSimilarPosts = async () => {
         createdAt
         slug
       }
-  }
-  `
-  const result = await request(graphqlAPI, query)
-  return result.posts
-}
+    }
+  `;
+  const result = await request(graphqlAPI, query, { slug, categories });
+
+  return result.posts;
+};
+
+
 
 // get Categories
 export const getCategories = async () => {

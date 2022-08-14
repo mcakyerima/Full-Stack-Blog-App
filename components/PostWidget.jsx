@@ -56,4 +56,4 @@ const PostWidget = ({ categories , slug}) => {
   )
 }
 
-export default PostWidget
+export default PostWidget;

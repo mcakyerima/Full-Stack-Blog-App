@@ -1,19 +1,20 @@
 import React from 'react';
-import { GetPostDetails, getPosts } from '../../services';
+import { getPostDetails, GetPostDetails, getPost } from '../../services';
 import { PostDetails , Categories , PostWidget, Author, CommentsForm, Comments  } from '../../components'
-const PostDetail = () => { 
+const PostDetail = ({post}) => { 
+    console.log("THIS IS POST " , post)
     return (
         <div className="container mx-auto px-10 mb-8">
             <div className="grid grid-cols-1 lg:grid-cols-12">
                 <div className="col-span-1 lg:col-span-8">
-                    <PostDetails/>
-                    <Author/>
-                    <CommentsForm/>
-                    <Comments/>
+                    <PostDetails post={post}/>
+                    <Author author={post.author}/>
+                    <CommentsForm slug={post.slug}/>
+                    <Comments slug={post.slug}/>
                 </div>
                 <div className="col-span-1 lg:col-span-4">
                     <div className="ralative lg:sticky top-8">
-                        <PostWidget/>
+                        <PostWidget slug={post.slug} categories={post.categories.map((category) => category.slug)}/>
                         <Categories/>
                     </div>
                 </div>
@@ -22,15 +23,32 @@ const PostDetail = () => {
     )
 }
 
-export const getStaticProps = async ({ params }) => {
-  
 
+
+export default PostDetail;
+
+export async function getStaticProps({ params }) {
+    console.log( "params" , params)
+    const data = await getPostDetails(params.slug);
     return {
-        props: {
-            props: posts
-        }
+        props: { post: data}
     }
 
 }
 
-export default PostDetail;
+// get StaticProps cannot prerender dynamic routes we are collecting
+// from our routes, so we need to give next js all the posible routes
+// routes that we are going so that it prerenders it before static rendering
+// so since we are using the SLUG dynamically, we will fetch all data from our CMS 
+// and map through the slugs and pass it to the params of getStaticPaths function which
+// will be used by the above getStaticProps functions params.
+export async function getStaticPaths(){
+    // fetch all post and get all slugs
+    const posts = await getPost()
+     return {
+        // destructure the post and node 
+        //  and get all slugs then , save slugs in paths object acording to NExtjs docs
+        paths: posts.map(({node: { slug}}) => ({params: { slug}})),
+        fallback: false
+     }
+}
