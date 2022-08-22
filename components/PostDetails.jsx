@@ -6,6 +6,7 @@ const PostDetails = ({ post }) => {
     // post rendering algorithm
 
     const getContentFragment = (index, text, obj, type) => {
+      
         let modifiedText = text;
     
         if (obj) {
@@ -81,7 +82,7 @@ const PostDetails = ({ post }) => {
             </div>
             <h1 className=" mb-8 text-3xl font-semibold">{post.title}</h1>
             { post.content.raw.children.map((typeObj, index) => {
-                console.log("TYPEOBJECT", typeObj, "INDEX" , index)
+
                 // get the children of the raw text and map overthem to find out text formats
                 const children = typeObj.children.map((item, itemIndex) => getContentFragment(itemIndex, item.text, item))
 

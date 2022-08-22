@@ -23,8 +23,6 @@ const PostWidget = ({ categories , slug}) => {
     }
   }, [slug])
 
-  console.log("RELATED POST " , relatedPost.map((post) => post.featured_image.url))
-
 
   return (
     <div className="bg-white shadow-lg rounded-lg p-8 mg-8">

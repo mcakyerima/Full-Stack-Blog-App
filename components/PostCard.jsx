@@ -1,19 +1,19 @@
 import React from 'react';
 import moment from 'moment';
 import Link from 'next/link'
-import { ppid } from 'process';
+
 
 const PostCard = ({ post }) => {
-  console.log(post)
   return (
     <div className="bg-white shadow-lg rounded-lg p-0 lg:p-8 pb-12 mb-8">
-        <div className="relative overflow-hidden pb-80 shadow-md mb-6">
+        <div className="relative overflow-hidden h-full pb-80  lg:pb-[500px] drop-shadow-lg selection:shadow-md mb-6">
           <img src={post.featured_image.url}
                alt={post.title}
-               className="absolute object-top h-80 w-full object-cover shadow-lg rounded-t-lg lg:rounded-lg"
+               className="absolute object-top h-full w-full object-cover shadow-lg rounded-t-lg lg:rounded-lg"
+               
           />
         </div>
-        <h1 className="transition duration-500  text-center mb-8 cursor-pointer hover:text-cyan-600 text-3xl font-semibold">
+        <h1 className="transition duration-500   text-center mb-8 cursor-pointer hover:text-cyan-600 text-3xl font-semibold">
           <Link href={`/post/${post.slug}`}>
             {post.title}
           </Link>
