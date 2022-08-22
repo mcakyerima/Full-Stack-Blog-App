@@ -7,3 +7,6 @@ export { default as Comments } from "./Comments";
 export { default as Author } from "./Author";
 export { default as CommentsForm } from "./CommentsForm";
 export { default as PostDetails } from "./PostDetails";
+export { default as FeaturedPostsCard } from "./FeaturedPostsCard";
+export { default as Footer } from "./Footer";
+export { default as Loader } from "./Loader";

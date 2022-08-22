@@ -1,10 +1,18 @@
 import React from 'react';
-import { getPostDetails, GetPostDetails, getPost } from '../../services';
-import { PostDetails , Categories , PostWidget, Author, CommentsForm, Comments  } from '../../components'
+import { useRouter } from 'next/router'
+import { getPostDetails, getPost } from '../../services';
+import { PostDetails , Categories , PostWidget, Author, CommentsForm, Comments, Loader  } from '../../components'
+
+
+
 const PostDetail = ({post}) => { 
-    console.log("THIS IS POST " , post)
+    const router = useRouter();
+
+    if (router.isFallback) {
+        return <Loader/>
+    }
     return (
-        <div className="container mx-auto px-10 mb-8">
+        <div className="container mx-auto lg:px-10 md:px-8 px-5 mb-8">
             <div className="grid grid-cols-1 lg:grid-cols-12">
                 <div className="col-span-1 lg:col-span-8">
                     <PostDetails post={post}/>
@@ -28,7 +36,6 @@ const PostDetail = ({post}) => {
 export default PostDetail;
 
 export async function getStaticProps({ params }) {
-    console.log( "params" , params)
     const data = await getPostDetails(params.slug);
     return {
         props: { post: data}

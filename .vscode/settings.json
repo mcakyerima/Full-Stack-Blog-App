@@ -1,0 +1,9 @@
+{
+    "screencastMode.fontSize": 30,
+    "debug.console.fontSize": 12,
+    "markdown.preview.fontSize": 14,
+    "terminal.integrated.fontSize": 12,
+    "tailwindCSS.rootFontSize": 16,
+    "mssql.resultsFontSize": 13,
+    "editor.fontSize": 12
+}
